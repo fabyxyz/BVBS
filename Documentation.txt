@@ -1,0 +1,14 @@
+To start coding in BetterVBS:
+-Create a file with the extension ".bvbs"
+-Open the file with any text editor
+-Now you can start coding
+
+BetterVBS commands:
+$cd "Path/To/Create/Folder", "folderName"
+$run "app.exe"
+
+*More commands coming soon!
+
+
+To compile it, run "BetterVBS.vbs" and type the following command:
+$run -"Path/To/Your/file.bvbs"
