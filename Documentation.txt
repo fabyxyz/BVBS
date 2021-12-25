@@ -3,12 +3,18 @@ To start coding in BetterVBS:
 -Open the file with any text editor
 -Now you can start coding
 
-BetterVBS commands:
-$cd "Path/To/Create/Folder", "folderName"
-$run "app.exe"
+*Create a folder:
+	$cd "Path/To/Create/Folder", "folderName"
+*Run file:
+	$run "Path/To/app.exe"
+*Return message:
+	-in a .txt format:
+		$return.txt("Hello World!")
+	-in a .html format:
+		*Please note that the extension format needs to be 3 letters long (Instead of html, use htm)
+		$return.htm("Hello World!")
 
 *More commands coming soon!
-
 
 To compile it, run "BetterVBS.vbs" and type the following command:
 $run -"Path/To/Your/file.bvbs"
