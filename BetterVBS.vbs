@@ -66,7 +66,7 @@ Sub compile()
                 ret_txt.writeLine returnCommand
                 ret_txt.close
                 shell.Run "returnCommand.txt"
-                WScript.Sleep 100
+                WScript.Sleep 1000
                 fso.DeleteFile "returnCommand.txt"
             elseif checkExtension= ".htm" then
                 returnCommand = Replace(returnCommand, ".htm","")
@@ -75,7 +75,7 @@ Sub compile()
                 ret_htm.writeLine "<p>" & returnCommand & "</p>"
                 ret_htm.close
                 shell.Run "returnCommand.html"
-                WScript.Sleep 500
+                WScript.Sleep 1000
                 fso.DeleteFile "returnCommand.html"
             end if
         end if
