@@ -3,7 +3,6 @@ To start coding in BetterVBS:
 -Open the file with any text editor
 -Now you can start coding!
 
-
 *Comment Code:
 	//This is a comment
 *Create a folder:
@@ -27,7 +26,6 @@ To start coding in BetterVBS:
 	$play "Path/To/sound.mp3"
 *Quit:
 	$quit
-
 
 *More commands coming soon!
 
