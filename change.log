@@ -5,3 +5,10 @@ v1.0.1
 v1.0.2
 -Added sleep command
 -Added play command
+
+v1.0.3
+-Added quit command
+-Now you can comment code
+-Return text in .vbs format
+-Improved text for html return
+-Bugs fixed
