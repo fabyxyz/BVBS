@@ -1,7 +1,7 @@
 To start coding in BetterVBS:
 -Create a file with the extension ".bvbs"
 -Open the file with any text editor
--Now you can start coding
+-Now you can start coding!
 
 *Create a folder:
 	$cd "Path/To/Create/Folder", "folderName"
@@ -11,10 +11,17 @@ To start coding in BetterVBS:
 	-in a .txt format:
 		$return.txt("Hello World!")
 	-in a .html format:
-		*Please note that the extension format needs to be 3 letters long (Instead of html, use htm)
+		*Please note that the extension format needs to be 3 letters long (Instead of .html, use .htm)
 		$return.htm("Hello World!")
+*Sleep:
+	-In milliseconds:
+		$sleep.mil(5000)
+	-In seconds:
+		$sleep.sec(5)
+*Play sound:
+	$play "Path/To/sound.mp3"
 
 *More commands coming soon!
 
 To compile it, run "BetterVBS.vbs" and type the following command:
-$run -"Path/To/Your/file.bvbs"
+$run -Path/To/Your/file.bvbs (The path must not contain quotes!)
