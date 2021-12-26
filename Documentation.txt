@@ -3,6 +3,9 @@ To start coding in BetterVBS:
 -Open the file with any text editor
 -Now you can start coding!
 
+
+*Comment Code:
+	//This is a comment
 *Create a folder:
 	$cd "Path/To/Create/Folder", "folderName"
 *Run file:
@@ -13,6 +16,8 @@ To start coding in BetterVBS:
 	-in a .html format:
 		*Please note that the extension format needs to be 3 letters long (Instead of .html, use .htm)
 		$return.htm("Hello World!")
+	-in a .vbs format:
+		$return.msg("Hello World!")
 *Sleep:
 	-In milliseconds:
 		$sleep.mil(5000)
@@ -20,6 +25,9 @@ To start coding in BetterVBS:
 		$sleep.sec(5)
 *Play sound:
 	$play "Path/To/sound.mp3"
+*Quit:
+	$quit
+
 
 *More commands coming soon!
 
