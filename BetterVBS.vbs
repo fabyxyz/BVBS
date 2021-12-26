@@ -1,11 +1,13 @@
 Option Explicit
+Dim version : version = "v1.0.2"
 Dim fso : Set fso = CreateObject("Scripting.FileSystemObject")
 Dim shell : Set shell = CreateObject("WScript.Shell")
+Dim sound : Set sound = CreateObject("WMPlayer.OCX")
 Dim nw : nw = vbCrlf
 Dim tb : tb = vbTab
 Dim qt : qt = """"
 
-Dim debugMode : debugMode = false
+Dim debugMode : debugMode = true
 Dim debugRunCommand
 if debugMode = true then
     debugRunCommand = "$run -test.bvbs"
@@ -19,7 +21,7 @@ Dim checkExtension
 
 Call subConsole()
 Sub subConsole()
-    Dim console : console = InputBox("","BetterVBS Console",debugRunCommand)
+    Dim console : console = InputBox("","BetterVBS " & version,debugRunCommand)
     '$run
     if InStr(console, "$run") > 0 then
         filePath = Replace(console, "$run -","")
@@ -38,7 +40,7 @@ Sub compile()
     Dim constLine
     Do Until file.AtEndOfStream
         constLine = file.ReadLine
-        '/cd
+        '$cd
         if InStr(constLine, prefix & "cd") > 0 then
             Dim cdCommand : cdCommand = Replace(constLine, prefix & "cd ","")
             cdCommand = Replace(cdCommand, qt,"")
@@ -47,12 +49,12 @@ Sub compile()
             createFolderPath = cdSection(0)
             createFolderName = cdSection(1)
             fso.CreateFolder(createFolderPath & "/" & createFolderName)
-        '/run
+        '$run
         elseif InStr(constLine, prefix & "run") > 0 then
-            Dim runCommand : runCommand = Replace(constLine, prefix & "run ","")
+            Dim runCommand : runCommand = Replace(constLine, prefix & "run","")
             runCommand = Replace(runCommand, qt,"")
             shell.Run(runCommand)
-        '/return
+        '$return
         elseif InStr(constLine, prefix & "return") > 0 then
             Dim returnCommand : returnCommand = Replace(constLine, prefix & "return","")
             returnCommand = Replace(returnCommand, "(","")
@@ -78,6 +80,29 @@ Sub compile()
                 WScript.Sleep 1000
                 fso.DeleteFile "returnCommand.html"
             end if
+        '$sleep
+        elseif InStr(constLine, prefix & "sleep") > 0 then
+            Dim sleepCommand : sleepCommand = Replace(constLine, prefix & "sleep","")
+            sleepCommand = Replace(sleepCommand, "(","")
+            sleepCommand = Replace(sleepCommand, ")","")
+            checkExtension = Left(sleepCommand,4)
+            if checkExtension = ".mil" then
+                sleepCommand = Replace(sleepCommand, ".mil","")
+                WScript.Sleep(sleepCommand)
+            elseif checkExtension = ".sec" then
+                sleepCommand = Replace(sleepCommand, ".sec","")
+                WScript.Sleep(sleepCommand * 1000)
+            end if
+        '$play
+        elseif InStr(constLine, prefix & "play") > 0 then
+            Dim playCommand : playCommand = Replace(constLine, prefix & "play","")
+            playCommand = Replace(playCommand, qt,"")
+            sound.URL = playCommand
+            sound.controls.play
+            While sound.playState <> 1
+                WScript.Sleep 100
+            Wend
+            sound.close
         end if
     Loop
 End Sub
