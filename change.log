@@ -1,3 +1,7 @@
 v1.0.1
 -Error for unsupported file extension
 -Added return command
+
+v1.0.2
+-Added sleep command
+-Added play command
