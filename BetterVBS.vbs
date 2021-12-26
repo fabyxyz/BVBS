@@ -19,7 +19,7 @@ Dim checkExtension
 
 Call subConsole()
 Sub subConsole()
-    Dim console : console = InputBox("","Shard Console",debugRunCommand)
+    Dim console : console = InputBox("","BetterVBS Console",debugRunCommand)
     '$run
     if InStr(console, "$run") > 0 then
         filePath = Replace(console, "$run -","")
