@@ -12,3 +12,8 @@ v1.0.3
 -Return text in .vbs format
 -Improved text for html return
 -Bugs fixed
+
+v1.0.4
+-Added registers
+-Assign values to registers
+-Perform operation with registers
