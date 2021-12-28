@@ -3,12 +3,16 @@ To start coding in BetterVBS:
 -Open the file with any text editor
 -Now you can start coding!
 
+
 *Comment Code:
 	//This is a comment
+
 *Create a folder:
 	$cd "Path/To/Create/Folder", "folderName"
+
 *Run file:
 	$run "Path/To/app.exe"
+
 *Return message:
 	-in a .txt format:
 		$return.txt("Hello World!")
@@ -17,15 +21,35 @@ To start coding in BetterVBS:
 		$return.htm("Hello World!")
 	-in a .vbs format:
 		$return.msg("Hello World!")
+
 *Sleep:
 	-In milliseconds:
 		$sleep.mil(5000)
 	-In seconds:
 		$sleep.sec(5)
+
 *Play sound:
 	$play "Path/To/sound.mp3"
+
 *Quit:
 	$quit
+
+*Registers
+	-All registers:
+		eax, ebx, ecx, edx
+	-Assign a value to a register
+		$mov eax, 3
+	-Assign a register to a register
+		$mov eax, 3
+		$mov ebx, eax (ebx is now 3)
+
+*Operations
+	-Add:
+		$mov eax, 3
+		$op.add(eax, 2) (eax is now 5)
+		$mov ebx, 3
+		$op.add(eax, ebx) (eax is now 6, and ebx is 3)
+
 
 *More commands coming soon!
 
