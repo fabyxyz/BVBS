@@ -1,5 +1,5 @@
 Option Explicit
-Dim version : version = "v1.0.4"
+Dim version : version = "v1.0.5"
 Dim fso : Set fso = CreateObject("Scripting.FileSystemObject")
 Dim shell : Set shell = CreateObject("WScript.Shell")
 Dim sound : Set sound = CreateObject("WMPlayer.OCX")
@@ -15,10 +15,15 @@ if debugMode = true then
 else
     debugRunCommand = ""
 end if
-    
+
+'Sytem Variables
+Dim lineNr : lineNr = 0
+
 'Global Variables
 Dim filePath
 Dim checkExtension
+Dim checkRegister
+Dim checkOperation
 
 'Registers
 Dim eax, ebx, ecx, edx
@@ -44,18 +49,82 @@ Sub compile()
     Dim constLine
     Do Until file.AtEndOfStream
         constLine = file.ReadLine
+        lineNr = lineNr + 1
         '//comment
         if Left(constLine,2) = "//" then
             'Line is a comment
-        '$cd
-        elseif Left(constLine,3) = prefix & "cd" then
-            Dim cdCommand : cdCommand = Replace(constLine, prefix & "cd ","")
-            cdCommand = Replace(cdCommand, qt,"")
-            Dim createFolderPath, createFolderName
-            Dim cdSection : cdSection = Split(cdCommand,",")
-            createFolderPath = cdSection(0)
-            createFolderName = cdSection(1)
-            fso.CreateFolder(createFolderPath & "/" & createFolderName)
+        '$fso
+        elseif Left(constLine,4) = prefix & "fso" then
+            Dim fsoCopy : fsoCopy = false
+            Dim fsoCommand : fsoCommand = Replace(constLine, prefix & "fso","")
+            fsoCommand = Replace(fsoCommand, "(","")
+            fsoCommand = Replace(fsoCommand, ")","")
+            fsoCommand = Replace(fsoCommand, qt, "")
+            checkExtension = Left(fsoCommand,5)
+            if checkExtension = ".crtx" then
+                fsoCommand = Replace(fsoCommand, checkExtension,"")
+            elseif checkExtension = ".crfo" then
+                fsoCommand = Replace(fsoCommand, checkExtension,"")
+            elseif checkExtension = ".cytx" then
+                fsoCommand = Replace(fsoCommand, checkExtension,"")
+            elseif checkExtension = ".cyfo" then
+                fsoCommand = Replace(fsoCommand, checkExtension,"")
+            elseif checkExtension = ".dltx" then
+                fsoCommand = Replace(fsoCommand, checkExtension,"")
+            elseif checkExtension = ".dlfo" then
+                fsoCommand = Replace(fsoCommand, checkExtension,"")
+            end if
+            if InStr(fsoCommand,",") then
+                fsoCommand = Replace(fsoCommand,nbsp,"")
+                Dim fsoSection : fsoSection = Split(fsoCommand,",")
+                fsoCopy = true
+            end if
+            if fsoCommand = "eax" then
+                fsoCommand = eax
+            elseif fsoCommand = "ebx" then
+                fsoCommand = ebx
+            elseif fsoCommand = "ecx" then
+                fsoCommand = ecx
+            elseif fsoCommand = "edx" then
+                fsoCommand = edx
+            end if
+            if checkExtension = ".crtx" then
+                if fsoCopy = false then
+                    fso.CreateTextFile(fsoCommand)
+                else
+                    'return error
+                end if
+            elseif checkExtension = ".crfo" then
+                if fsoCopy = false then
+                    fso.createFolder(fsoCommand)
+                else
+                    'return error
+                end if
+            elseif checkExtension = ".cytx" then
+                if fsoCopy = true then
+                    fso.CopyFile fsoSection(0),fsoSection(1)
+                else
+                    'return error
+                end if
+            elseif checkExtension = ".cyfo" then
+                if fsoCopy = true then
+                    fso.CopyFolder fsoSection(0),fsoSection(1)
+                else
+                    'return error
+                end if
+            elseif checkExtension = ".dltx" then
+                if fsoCopy = false then
+                    fso.DeleteFile(fsoCommand)
+                else
+                    'return error
+                end if
+            elseif checkExtension = ".dlfo" then
+                if fsoCopy = false then
+                    fso.DeleteFolder(fsoCommand)
+                else
+                    'return error
+                end if
+            end if
         '$run
         elseif Left(constLine,4) = prefix & "run" then
             Dim runCommand : runCommand = Replace(constLine, prefix & "run","")
@@ -153,6 +222,8 @@ Sub compile()
                     eax = ecx
                 elseif mov = " edx" then
                     eax = edx
+                elseif mov = " %NULL" then
+                    eax = NULL
                 else
                     eax = mov
                 end if
@@ -165,6 +236,8 @@ Sub compile()
                     ebx = ecx
                 elseif mov = " edx" then
                     ebx = edx
+                elseif mov = " %NULL" then
+                    ebx = NULL
                 else
                     ebx = mov
                 end if
@@ -177,6 +250,8 @@ Sub compile()
                     ecx = ecx
                 elseif mov = " edx" then
                     ecx = edx
+                elseif mov = " %NULL" then
+                    ecx = NULL
                 else
                     ecx = mov
                 end if
@@ -189,6 +264,8 @@ Sub compile()
                     edx = ecx
                 elseif mov = " edx" then
                     edx = edx
+                elseif mov = " %NULL" then
+                    edx = NULL
                 else
                     edx = mov
                 end if
@@ -286,6 +363,9 @@ Sub compile()
                     end if
                 end if
             end if
+        '$if
+        elseif Left(constLine,3) = prefix & "if" then
+            Dim ifCommand : ifCommand = Replace(constLine, prefix & "if","")
         end if
     Loop
 End Sub
