@@ -16,4 +16,9 @@ v1.0.3
 v1.0.4
 -Added registers
 -Assign values to registers
--Perform operation with registers
+-Perform operations with registers
+
+v1.0.5
+-Replaced $cd command with $fso
+-Create or delete file/folders
+-Assign registers to NULL
