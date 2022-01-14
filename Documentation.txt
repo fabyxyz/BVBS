@@ -67,4 +67,4 @@ To start coding in BetterVBS:
 *More commands coming soon!
 
 To compile it, run "BetterVBS.vbs" and type the following command:
-$run -Path/To/Your/file.bvbs (The path must not contain quotes!)
+$run -Path/To/Your/file.bvbs (Make sure the path does not contain quotes!)
