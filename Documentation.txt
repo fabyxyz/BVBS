@@ -7,8 +7,19 @@ To start coding in BetterVBS:
 *Comment Code:
 	//This is a comment
 
-*Create a folder:
-	$cd "Path/To/Create/Folder", "folderName"
+*FSO Command:
+	-Create file:
+		$fso.crtx("file.txt")
+	-Copy file:
+		$fso.cytx("file.txt","C:\Files\")
+	-Delete file:
+		$fso.dltx("file.txt")
+	-Create folder:
+		$fso.crfo("Folder")
+	-Copy Folder:
+		$fso.cyfo("Folder", "C:\Folders\")
+	-Delete Folder:
+		$fso.dlfo("Folder")
 
 *Run file:
 	$run "Path/To/app.exe"
@@ -37,11 +48,13 @@ To start coding in BetterVBS:
 *Registers
 	-All registers:
 		eax, ebx, ecx, edx
-	-Assign a value to a register
+	-Assign a value to a register:
 		$mov eax, 3
-	-Assign a register to a register
+	-Assign a register to a register:
 		$mov eax, 3
 		$mov ebx, eax (ebx is now 3)
+	-Assign register to NULL:
+		$mov eax, %NULL
 
 *Operations
 	-Add:
