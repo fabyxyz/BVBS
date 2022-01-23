@@ -27,3 +27,4 @@ v1.0.6
 -Run console
 -Sleep command supports register values
 -Added SendKeys command
+-Fixed NULL assignment
