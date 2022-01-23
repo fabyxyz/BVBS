@@ -21,8 +21,11 @@ To start coding in BetterVBS:
 	-Delete Folder:
 		$fso.dlfo("Folder")
 
-*Run file:
-	$run "Path/To/app.exe"
+*Run Command:
+	-Run file:
+		$run "Path/To/app.exe"
+	-Run console:
+		$run.console
 
 *Return message:
 	-in a .txt format:
@@ -45,7 +48,7 @@ To start coding in BetterVBS:
 *Quit:
 	$quit
 
-*Registers
+*Registers:
 	-All registers:
 		eax, ebx, ecx, edx
 	-Assign a value to a register:
@@ -56,12 +59,16 @@ To start coding in BetterVBS:
 	-Assign register to NULL:
 		$mov eax, %NULL
 
-*Operations
+*Operations:
 	-Add:
 		$mov eax, 3
 		$op.add(eax, 2) (eax is now 5)
 		$mov ebx, 3
 		$op.add(eax, ebx) (eax is now 6, and ebx is 3)
+
+*SendKeys:
+	$run.console
+	$sk("Hello World!") (Returns a message in console)
 
 
 *More commands coming soon!
