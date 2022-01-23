@@ -1,5 +1,5 @@
 Option Explicit
-Dim version : version = "v1.0.5"
+Dim version : version = "v1.0.6"
 Dim fso : Set fso = CreateObject("Scripting.FileSystemObject")
 Dim shell : Set shell = CreateObject("WScript.Shell")
 Dim sound : Set sound = CreateObject("WMPlayer.OCX")
@@ -127,9 +127,13 @@ Sub compile()
             end if
         '$run
         elseif Left(constLine,4) = prefix & "run" then
-            Dim runCommand : runCommand = Replace(constLine, prefix & "run","")
-            runCommand = Replace(runCommand, qt,"")
-            shell.Run(runCommand)
+            if Left(constLine,12) = prefix & "run.console" then
+                shell.Run "cmd.exe"
+            else
+                Dim runCommand : runCommand = Replace(constLine, prefix & "run","")
+                runCommand = Replace(runCommand, qt,"")
+                shell.Run(runCommand)
+            end if
         '$return
         elseif Left(constLine,7) = prefix & "return" then
             Dim returnCommand : returnCommand = Replace(constLine, prefix & "return","")
@@ -188,10 +192,30 @@ Sub compile()
             checkExtension = Left(sleepCommand,4)
             if checkExtension = ".mil" then
                 sleepCommand = Replace(sleepCommand, ".mil","")
-                WScript.Sleep(sleepCommand)
+                if sleepCommand = "eax" then
+                    WScript.Sleep(eax)
+                elseif sleepCommand = "ebx" then
+                    WScript.Sleep(ebx)
+                elseif sleepCommand = "ecx" then
+                    WScript.Sleep(ecx)
+                elseif sleepCommand = "edx" then
+                    WScript.Sleep(edx)
+                else
+                    WScript.Sleep(sleepCommand)
+                end if
             elseif checkExtension = ".sec" then
                 sleepCommand = Replace(sleepCommand, ".sec","")
-                WScript.Sleep(sleepCommand * 1000)
+                if sleepCommand = "eax" then
+                    WScript.Sleep(eax * 1000)
+                elseif sleepCommand = "ebx" then
+                    WScript.Sleep(ebx * 1000)
+                elseif sleepCommand = "ecx" then
+                    WScript.Sleep(ecx * 1000)
+                elseif sleepCommand = "edx" then
+                    WScript.Sleep(edx * 1000)
+                else
+                    WScript.Sleep(sleepCommand * 1000)
+                end if
             end if
         '$play
         elseif Left(constLine,5) = prefix & "play" then
@@ -362,6 +386,23 @@ Sub compile()
                         edx = edx + operation
                     end if
                 end if
+            end if
+        '$sk
+        elseif Left(constLine,3) = prefix & "sk" then
+            Dim skCommand : skCommand = Replace(constLine, prefix & "sk","")
+            skCommand = Replace(skCommand, "(","")
+            skCommand = Replace(skCommand, ")","")
+            skCommand = Replace(skCommand,qt,"")
+            if skCommand = "eax" then
+                shell.SendKeys eax
+            elseif skCommand = "ebx" then
+                shell.SendKeys ebx
+            elseif skCommand = "ecx" then
+                shell.SendKeys ecx
+            elseif skCommand = "edx" then
+                shell.SendKeys edx
+            else
+                shell.SendKeys skCommand
             end if
         '$if
         elseif Left(constLine,3) = prefix & "if" then
