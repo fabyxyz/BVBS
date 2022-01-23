@@ -7,8 +7,9 @@ Dim nw : nw = vbCrlf
 Dim tb : tb = vbTab
 Dim qt : qt = """"
 Dim nbsp : nbsp = " "
+Dim NUL : NUL = ""
 
-Dim debugMode : debugMode = false
+Dim debugMode : debugMode = true
 Dim debugRunCommand
 if debugMode = true then
     debugRunCommand = "$run -test.bvbs"
@@ -247,7 +248,7 @@ Sub compile()
                 elseif mov = " edx" then
                     eax = edx
                 elseif mov = " %NULL" then
-                    eax = NULL
+                    eax = NUL
                 else
                     eax = mov
                 end if
@@ -261,7 +262,7 @@ Sub compile()
                 elseif mov = " edx" then
                     ebx = edx
                 elseif mov = " %NULL" then
-                    ebx = NULL
+                    ebx = NUL
                 else
                     ebx = mov
                 end if
@@ -275,7 +276,7 @@ Sub compile()
                 elseif mov = " edx" then
                     ecx = edx
                 elseif mov = " %NULL" then
-                    ecx = NULL
+                    ecx = NUL
                 else
                     ecx = mov
                 end if
@@ -289,7 +290,7 @@ Sub compile()
                 elseif mov = " edx" then
                     edx = edx
                 elseif mov = " %NULL" then
-                    edx = NULL
+                    edx = NUL
                 else
                     edx = mov
                 end if
