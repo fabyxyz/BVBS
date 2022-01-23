@@ -22,3 +22,8 @@ v1.0.5
 -Replaced $cd command with $fso
 -Create or delete file/folders
 -Assign registers to NULL
+
+v1.0.6
+-Run console
+-Sleep command supports register values
+-Added SendKeys command
