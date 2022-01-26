@@ -65,13 +65,28 @@ To start coding in BetterVBS:
 		$op.add(eax, 2) (eax is now 5)
 		$mov ebx, 3
 		$op.add(eax, ebx) (eax is now 6, and ebx is 3)
+	-Subtract:
+		$mov eax, 6
+		$op.sub(eax, 4) (eax is now 2)
+		$mov ebx, 5
+		$op.sub(eax, ebx) (eax is now -3)
 
 *SendKeys:
 	$run.console
-	$sk("Hello World!") (Returns a message in console)
+	$sk("Hello World!") (Returns "Hello World!" in console)
 
+*If statement:
+	$if(condition):command
+		-Example 1:
+		$mov eax, 5 (eax is 5)
+		$if(eax = 5):$return.msg("eax is 5")
+		$if(eax ! 5):$return.msg("eax is not 5")
+		-Example 2:
+		$mov eax, 5
+		$mov ebx, 10
+		$if(ebx > eax):$run.console
+		$if(eax < ebx):$quit
 
 *More commands coming soon!
-
 To compile it, run "BetterVBS.vbs" and type the following command:
 $run -Path/To/Your/file.bvbs (Make sure the path does not contain quotes!)
