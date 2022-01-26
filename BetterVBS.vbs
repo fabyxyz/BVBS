@@ -1,5 +1,5 @@
 Option Explicit
-Dim version : version = "v1.0.6"
+Dim version : version = "v1.0.7"
 Dim fso : Set fso = CreateObject("Scripting.FileSystemObject")
 Dim shell : Set shell = CreateObject("WScript.Shell")
 Dim sound : Set sound = CreateObject("WMPlayer.OCX")
@@ -7,9 +7,9 @@ Dim nw : nw = vbCrlf
 Dim tb : tb = vbTab
 Dim qt : qt = """"
 Dim nbsp : nbsp = " "
-Dim NUL : NUL = ""
+Dim NUL : NUL = empty
 
-Dim debugMode : debugMode = true
+Dim debugMode : debugMode = false
 Dim debugRunCommand
 if debugMode = true then
     debugRunCommand = "$run -test.bvbs"
@@ -49,8 +49,71 @@ Sub compile()
     Dim file : Set file = fso.OpenTextFile(filePath)
     Dim constLine
     Do Until file.AtEndOfStream
+        WScript.Sleep(100)
         constLine = file.ReadLine
         lineNr = lineNr + 1
+
+        '$if
+        if Left(constLine,3) = prefix & "if" then
+            Dim ifCommand : ifCommand = Split(constLine,":")
+            'condition section
+            ifCommand(0) = Replace(ifCommand(0), prefix & "if","")
+            ifCommand(0) = Replace(ifCommand(0), nbsp,"")
+            ifCommand(0) = Replace(ifCommand(0), "(","")
+            ifCommand(0) = Replace(ifCommand(0), ")","")
+            Dim ifCond(2)
+            ifCond(0) = Left(ifCommand(0),3)
+            ifCommand(0) = Replace(ifCommand(0),ifCond(0),"")
+            Dim ifOperator : ifOperator = Left(ifCommand(0),1)
+            ifCommand(0) = Replace(ifCommand(0),ifOperator,"")
+            ifCond(1) = Left(ifCommand(0),3)
+            ifCommand(0) = NUL
+
+            'Filter
+            ifCond(0) = Replace(ifCond(0),nbsp,"")
+            ifCond(1) = Replace(ifCond(1),nbsp,"")
+
+            Dim ifRes : ifRes = false
+            Dim ifLoop : ifLoop = 0
+            Do
+                if ifCond(ifLoop) = "eax" then
+                    ifCond(ifLoop) = eax
+                elseif ifCond(ifLoop) = "ebx" then
+                    ifCond(ifLoop) = ebx
+                elseif ifCond(ifLoop) = "ecx" then
+                    ifCond(ifLoop) = ecx
+                elseif ifCond(ifLoop) = "edx" then
+                    ifCond(ifLoop) = edx
+                end if
+                ifLoop = ifLoop + 1
+            Loop until ifLoop = 2
+
+            'Convert to int
+            ifCond(0) = CInt(ifCond(0))
+            ifCond(1) = CInt(ifCond(1))
+
+            if ifOperator = "=" then
+                if ifCond(0) = ifCond(1) then
+                    ifRes = true
+                end if
+            elseif ifOperator = "!" then
+                if ifCond(0) <> ifCond(1) then
+                    ifRes = true
+                end if
+            elseif ifOperator = "<" then
+                if ifCond(0) < ifCond(1) then
+                    ifRes = true
+                end if
+            elseif ifOperator = ">" then
+                if ifCond(0) > ifCond(1) then
+                    ifRes = true
+                end if
+            end if
+
+            if ifRes = true then
+                constLine = ifCommand(1)
+            end if
+        end if
         '//comment
         if Left(constLine,2) = "//" then
             'Line is a comment
@@ -313,6 +376,7 @@ Sub compile()
             end if
             'Operation Value Filter
             operation = Replace(operation,nbsp,"")
+            rem.add
             if checkExtension = ".add" then
                 if Left(operation,3) = "eax" then
                     operation = Replace(operation,"eax","")
@@ -387,6 +451,81 @@ Sub compile()
                         edx = edx + operation
                     end if
                 end if
+            rem.add
+            elseif checkExtension = ".sub" then
+                if Left(operation,3) = "eax" then
+                    operation = Replace(operation,"eax","")
+                    if operation = "eax" then
+                        eax = CInt(eax)
+                        eax = eax - eax
+                    elseif operation = "ebx" then
+                        ebx = CInt(ebx)
+                        eax = eax - ebx
+                    elseif operation = "ecx" then
+                        ecx = CInt(ecx)
+                        eax = eax - ecx
+                    elseif operation = "edx" then
+                        edx = CInt(edx)
+                        eax = eax - edx
+                    else
+                        operation = CInt(operation)
+                        eax = eax - operation
+                    end if
+                elseif Left(operation,3) = "ebx" then
+                    operation = Replace(operation,"ebx","")
+                    if operation = "eax" then
+                        eax = CInt(eax)
+                        ebx = ebx - eax
+                    elseif operation = "ebx" then
+                        ebx = CInt(ebx)
+                        ebx = ebx - ebx
+                    elseif operation = "ecx" then
+                        ecx = CInt(ecx)
+                        ebx = ebx - ecx
+                    elseif operation = "edx" then
+                        edx = CInt(edx)
+                        ebx = ebx - edx
+                    else
+                        operation = CInt(operation)
+                        ebx = ebx - operation
+                    end if
+                elseif Left(operation,3) = "ecx" then
+                    operation = Replace(operation,"ecx","")
+                    if operation = "eax" then
+                        eax = CInt(eax)
+                        ecx = ecx - eax
+                    elseif operation = "ebx" then
+                        ebx = CInt(ebx)
+                        ecx = ecx - ebx
+                    elseif operation = "ecx" then
+                        ecx = CInt(ecx)
+                        ecx = ecx - ecx
+                    elseif operation = "edx" then
+                        edx = CInt(edx)
+                        ecx = ecx - edx
+                    else
+                        operation = CInt(operation)
+                        ecx = ecx - operation
+                    end if
+                elseif Left(operation,3) = "edx" then
+                    operation = Replace(operation,"edx","")
+                    if operation = "eax" then
+                        eax = CInt(eax)
+                        edx = edx - eax
+                    elseif operation = "ebx" then
+                        ebx = CInt(ebx)
+                        edx = edx - ebx
+                    elseif operation = "ecx" then
+                        ecx = CInt(ecx)
+                        edx = edx - ecx
+                    elseif operation = "edx" then
+                        edx = CInt(edx)
+                        edx = edx - edx
+                    else
+                        operation = CInt(operation)
+                        edx = edx - operation
+                    end if
+                end if
             end if
         '$sk
         elseif Left(constLine,3) = prefix & "sk" then
@@ -405,9 +544,6 @@ Sub compile()
             else
                 shell.SendKeys skCommand
             end if
-        '$if
-        elseif Left(constLine,3) = prefix & "if" then
-            Dim ifCommand : ifCommand = Replace(constLine, prefix & "if","")
         end if
     Loop
 End Sub
