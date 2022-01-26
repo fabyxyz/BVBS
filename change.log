@@ -16,7 +16,7 @@ v1.0.3
 v1.0.4
 -Added registers
 -Assign values to registers
--Perform operations with registers
+-Perform addition with registers
 
 v1.0.5
 -Replaced $cd command with $fso
@@ -28,3 +28,8 @@ v1.0.6
 -Sleep command supports register values
 -Added SendKeys command
 -Fixed NULL assignment
+
+v1.0.7
+-Perform subtraction with registers
+-Added if command
+-Bugs Fixed
