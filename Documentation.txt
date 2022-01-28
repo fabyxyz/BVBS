@@ -49,7 +49,7 @@ To start coding in BetterVBS:
 	$quit
 
 *Registers:
-	-All registers:
+	-All integer registers:
 		eax, ebx, ecx, edx
 	-Assign a value to a register:
 		$mov eax, 3
@@ -58,6 +58,9 @@ To start coding in BetterVBS:
 		$mov ebx, eax (ebx is now 3)
 	-Assign register to NULL:
 		$mov eax, %NULL
+
+	-All string registers:
+		rax, rbx, rcx, rdx
 
 *Operations:
 	-Add:
@@ -72,20 +75,30 @@ To start coding in BetterVBS:
 		$op.sub(eax, ebx) (eax is now -3)
 
 *SendKeys:
-	$run.console
-	$sk("Hello World!") (Returns "Hello World!" in console)
+	-Defalut:
+		$run.console
+		$sk("Hello World!") (Returns "Hello World!" in console)
+	-Int register:
+		$run.console
+		$mov eax, 30
+		$sk(eax) (Returns 30 in console)
+	-String register:
+		$run.console
+		$str rbx, "Hello World!"
+		$sk(rbx) (Returns "Hello World!" in console)
+
 
 *If statement:
 	$if(condition):command
 		-Example 1:
-		$mov eax, 5 (eax is 5)
-		$if(eax = 5):$return.msg("eax is 5")
-		$if(eax ! 5):$return.msg("eax is not 5")
+			$mov eax, 5 (eax is 5)
+			$if(eax = 5):$return.msg("eax is 5")
+			$if(eax ! 5):$return.msg("eax is not 5")
 		-Example 2:
-		$mov eax, 5
-		$mov ebx, 10
-		$if(ebx > eax):$run.console
-		$if(eax < ebx):$quit
+			$mov eax, 5
+			$mov ebx, 10
+			$if(ebx > eax):$run.console
+			$if(eax < ebx):$quit
 
 *More commands coming soon!
 To compile it, run "BetterVBS.vbs" and type the following command:
