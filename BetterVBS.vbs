@@ -1,5 +1,5 @@
 Option Explicit
-Dim version : version = "v1.0.7"
+Dim version : version = "v1.0.8"
 Dim fso : Set fso = CreateObject("Scripting.FileSystemObject")
 Dim shell : Set shell = CreateObject("WScript.Shell")
 Dim sound : Set sound = CreateObject("WMPlayer.OCX")
@@ -9,7 +9,7 @@ Dim qt : qt = """"
 Dim nbsp : nbsp = " "
 Dim NUL : NUL = empty
 
-Dim debugMode : debugMode = false
+Dim debugMode : debugMode = true
 Dim debugRunCommand
 if debugMode = true then
     debugRunCommand = "$run -test.bvbs"
@@ -28,6 +28,7 @@ Dim checkOperation
 
 'Registers
 Dim eax, ebx, ecx, edx
+Dim rax, rbx, rcx, rdx
 
 Call subConsole()
 Sub subConsole()
@@ -84,6 +85,14 @@ Sub compile()
                     ifCond(ifLoop) = ecx
                 elseif ifCond(ifLoop) = "edx" then
                     ifCond(ifLoop) = edx
+                elseif ifCond(ifLoop) = "rax" then
+                    ifCond(ifLoop) = rax
+                elseif ifCond(ifLoop) = "rbx" then
+                    ifCond(ifLoop) = rbx
+                elseif ifCond(ifLoop) = "rcx" then
+                    ifCond(ifLoop) = rcx
+                elseif ifCond(ifLoop) = "rdx" then
+                    ifCond(ifLoop) = rdx
                 end if
                 ifLoop = ifLoop + 1
             Loop until ifLoop = 2
@@ -117,6 +126,19 @@ Sub compile()
         '//comment
         if Left(constLine,2) = "//" then
             'Line is a comment
+        '$system
+        elseif Left(constLine,7) = prefix & "system" then
+            Dim sysCommand : sysCommand = Replace(constLine, prefix & "system","")
+            sysCommand = Replace(sysCommand, ".","")
+            if Right(sysCommand,2) = "x)" then
+                sysCommand = Replace(sysCommand, "(","")
+                sysCommand = Replace(sysCommand, ")","")
+                Dim sysReg : sysReg = Right(sysCommand,3)
+                sysCommand = Replace(sysCommand,sysReg,"")
+            else
+                sysCommand = Replace(sysCommand, "(","")
+                sysCommand = Replace(sysCommand, ")","")
+            end if
         '$fso
         elseif Left(constLine,4) = prefix & "fso" then
             Dim fsoCopy : fsoCopy = false
@@ -220,6 +242,14 @@ Sub compile()
                 returnCommand = ecx
             elseif returnCommand = "edx" then
                 returnCommand = edx
+            elseif returnCommand = "rax" then
+                returnCommand = rax
+            elseif returnCommand = "rbx" then
+                returnCommand = rbx
+            elseif returnCommand = "rcx" then
+                returnCommand = rcx
+            elseif returnCommand = "rdx" then
+                returnCommand = rdx
             end if
             'Register Value Filter
             returnCommand = Replace(returnCommand,nbsp,"")
@@ -294,6 +324,40 @@ Sub compile()
         '$quit
         elseif Left(constLine,5) = prefix & "quit" then
             WScript.Quit
+        '$str
+        elseif Left(constLine,4) = prefix & "str" then
+            Dim str : str = Replace(constLine, prefix & "str" & nbsp,"")
+            Dim strReg : strReg = Left(str,3)
+            str = Replace(str,strReg,"")
+            str = Replace(str,",","")
+            str = Replace(str,qt,"")
+            str = Replace(str,nbsp,"")
+            'msgBox "Register: " & strReg & nw & "Value: " & str 'Debug
+            if strReg = "rax" then
+                if str = "%NULL" then
+                    rax = NUL
+                else
+                    rax = str
+                end if
+            elseif strReg = "rbx" then
+                if str = "%NULL" then
+                    rbx = NUL
+                else
+                    rbx = str
+                end if
+            elseif strReg = "rcx" then
+                if str = "%NULL" then
+                    rcx = NUL
+                else
+                    rcx = str
+                end if
+            elseif strReg = "rdx" then
+                if str = "%NULL" then
+                    rdx = NUL
+                else
+                    rdx = str
+                end if
+            end if
         '$mov
         elseif Left(constLine,4) = prefix & "mov" then
             Dim mov : mov = Replace(constLine, prefix & "mov" & nbsp,"")
@@ -541,6 +605,14 @@ Sub compile()
                 shell.SendKeys ecx
             elseif skCommand = "edx" then
                 shell.SendKeys edx
+            elseif skCommand = "rax" then
+                shell.SendKeys rax
+            elseif skCommand = "rbx" then
+                shell.SendKeys rbx
+            elseif skCommand = "rcx" then
+                shell.SendKeys rcx
+            elseif skCommand = "rdx" then
+                shell.SendKeys rdx
             else
                 shell.SendKeys skCommand
             end if
