@@ -9,7 +9,7 @@ Dim qt : qt = """"
 Dim nbsp : nbsp = " "
 Dim NUL : NUL = empty
 
-Dim debugMode : debugMode = true
+Dim debugMode : debugMode = false
 Dim debugRunCommand
 if debugMode = true then
     debugRunCommand = "$run -test.bvbs"
