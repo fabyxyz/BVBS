@@ -14,7 +14,7 @@ v1.0.3
 -Bugs fixed
 
 v1.0.4
--Added registers
+-Added int registers eax, ebx, ecx, edx
 -Assign values to registers
 -Perform addition with registers
 
@@ -33,3 +33,7 @@ v1.0.7
 -Perform subtraction with registers
 -Added if command
 -Bugs Fixed
+
+v1.0.8
+-Added string registers rax, rbx, rcx, rdx
+-Added str command
