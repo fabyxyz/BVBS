@@ -1,4 +1,4 @@
-To start coding in BetterVBS:
+To start coding in BVBS Beta:
 -Create a file with the extension ".bvbs"
 -Open the file with any text editor
 -Now you can start coding!
