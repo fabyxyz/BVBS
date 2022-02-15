@@ -1,2 +1,2 @@
-# BetterVBS
-###### BetterVBS is a programming language intended to be an easier alternative to VBScript
+# BVBS Beta
+###### This is a beta version for the upcoming BVBS language
