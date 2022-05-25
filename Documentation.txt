@@ -101,5 +101,5 @@ To start coding in BVBS Beta:
 			$if(eax < ebx):$quit
 
 *More commands coming soon!
-To compile it, run "BetterVBS.vbs" and type the following command:
+To compile it, run "BVBS.vbs" and type the following command:
 $run -Path/To/Your/file.bvbs (Make sure the path does not contain quotes!)
