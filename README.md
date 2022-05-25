@@ -1,2 +1,3 @@
 # BVBS Beta
-###### This is a beta version for the upcoming BVBS language
+###### BVBS is a programming language written in VBScript
+###### Read the documentation for more
